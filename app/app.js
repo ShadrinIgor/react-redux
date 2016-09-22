@@ -1,13 +1,17 @@
 import React from 'react';
-import { Provider, Router, Route, browserHistory, IndexRoute } from 'react-router';
-import FormContainer from './containers/form-container.js';
-import store from './store.js';
+import { render } from 'react-dom';
+import { Provider } from 'react-redux'
+import App from './components/App.js';
+import configureStore from './configureStore.js';
 
-React.render(
-    <Provider store={store} >
-        <Router history={browserHistory}>
-            <Route path="/" component={FormContainer} />
-        </Router>
-    </Provider>,
-    document.getElementById('root')
-);
+const store = configureStore();
+
+render(
+        <Provider store={store}>
+            <div className='app'>
+                <App />
+            </div>
+        </Provider>,
+        document.getElementById('root')
+    )
+

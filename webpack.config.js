@@ -3,8 +3,7 @@ var path = require('path');
 module.exports = {
     entry: "./app/app.js",
     output: {
-        filename: "./js/bundle.js",
-        sourceMapFilename: "./js/bundle.map"
+        filename: "./js/bundle.js"
     },
     devtool: '#source-map',
     module: {
