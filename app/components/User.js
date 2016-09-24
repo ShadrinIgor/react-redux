@@ -1,64 +1,41 @@
 import React, { PropTypes, Component } from 'react'
-import Axios from 'axios'
+import { Field, reduxForm, SubmissionError } from 'redux-form'
+import submit from './submit'
 
-export default class User extends Component {
+const renderInput = ({ input, label, type, meta: { touched, error } }) => (
+    <div className="form-group">
+        <label htmlFor="inputEmail">{label}:</label>
+        {touched && error && <span>{error}</span>}
+        <input {...input} className="form-control" placeholder={label} type={type} />
+    </div>
+);
+
+class User extends Component {
     render() {
-
-        return <div className="panel panel-default">
-                    <div className="panel-body">
-                        <div className="panel panel-success">
-                            { this.props.user.error ? <div className="panel panel-danger"><div className="panel-heading">{this.props.user.error}</div></div> : null}
-                            <div className="panel-body">
-                                <div className="form-group">
-                                    <label htmlFor="inputEmail">Name:</label>
-                                    <input type="text" className="form-control" name="name" />
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="inputEmail">Surname:</label>
-                                    <input type="text" className="form-control" name="surname" />
-                                </div>
-                                <div className="text-center">
-                                    <input type="button" onClick={this.actionSetName.bind( this )} name="send-form" value="Send" />
+        const { error, handleSubmit, pristine, reset, submitting } = this.props;
+        return <form onSubmit={handleSubmit(submit)}>
+                    <div className="panel panel-default">
+                        <div className="panel-body">
+                            <div className="panel panel-success">
+                                {error && <div className="panel panel-danger"><div className="panel-heading">{error}</div></div>}
+                                <div className="panel-body">
+                                    <Field name="name" component={renderInput} type="text" label="Name"/>
+                                    <Field name="surname" component={renderInput} type="text" label="Surname"/>
+                                    <div className="text-center">
+                                        <button type="submit" name="send-form">Send</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-    }
-
-    actionSetName( event ){
-        var name = document.querySelector("input[name=name]").value;
-        var surname = document.querySelector("input[name=surname]").value;
-        var error = '';
-        var _this = this;
-
-        if( name && surname ){
-            this.props.actions.setError('');
-
-            if( name.search(/([а]{2})?([a]{2})?/g) > -1 ){
-                error = 'Incorrect name';
-            }
-
-            if( surname.split("-").length > 2 ){
-                error = 'Incorrect surname';
-            }
-
-            if( !error ){
-                Axios.post('http://sample.com/api/v3/contact', {
-                        name : name,
-                        surname : surname
-                    })
-                    .then( function ( response ){
-                        _this.props.actions.setNameAndSurname( name, surname );
-                    })
-                    .catch( function ( error ){
-                        _this.props.actions.setError('Error send data');
-                    });
-            }
-        }
-            else
-                error = 'All fields are required';
-
-        if( error ) this.props.actions.setError(error);
+            </form>
     }
 }
+
+// Decorate the form component
+User = reduxForm({
+    form: 'addUser', // a unique name for this form
+    submit
+})(User);
+
+export default User;
