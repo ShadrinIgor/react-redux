@@ -1,54 +1,37 @@
-import {_SUCCESS, _REQUEST} from '../constants/baseTypes'
+import {_SUCCESS} from '../constants/baseTypes'
 import {GET_MAIN_LIST} from '../constants/Main'
 
 var mockApiData = [
     {
         id: 1,
-        name: 'Enter Sandman'
+        name: 'Первый пункт меню'
     },
     {
         id: 2,
-        name: 'Welcome Home'
+        name: 'Второй пункт меню'
     },
     {
         id: 3,
-        name: 'Master of Puppets'
+        name: 'Третий пункт меню'
     },
-    {
-        id: 4,
-        name: 'Fade to Black'
-    }
 ];
 
-export const getMainList = () => dispatch => {
+const getMainList = () => dispatch => {
     setTimeout(() => {
-        console.log('I got tracks');
-        dispatch({ type: 'GET_MAIN_LIST'+_SUCCESS, payload: mockApiData })
-    }, 2000)
+        dispatch({type: 'GET_MAIN_LIST' + _SUCCESS, main_list: mockApiData})
+    }, 500)
 };
 
 /*
-import {_REQUEST} from '../constants/baseTypes'
-import {SET_MAIN_LIST, GET_MAIN_LIST} from '../constants/Main'
 
-function getMainList() {
-    return async (dispatch) => {
-        await dispatch({
-            type: GET_MAIN_LIST + _REQUEST,
-            method: 'GET',
-            endpoint: `api/getMainList/`,
-        });
-    };
-}
-
-function setMainList( list ){
-    return {
-        type : SET_MAIN_LIST,
-        main_list : list
-    }
-}
+ function setMainList( list ){
+ return {
+ type : SET_MAIN_LIST,
+ main_list : list
+ }
+ }
+ */
 
 export {
-    getMainList,
-    setMainList
-}*/
+    getMainList
+}

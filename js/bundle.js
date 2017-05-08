@@ -60,17 +60,19 @@
 	
 	var _redux = __webpack_require__(192);
 	
-	var _reduxDevtoolsExtension = __webpack_require__(218);
+	var _reduxDevtoolsExtension = __webpack_require__(215);
 	
-	var _reduxThunk = __webpack_require__(215);
+	var _reduxThunk = __webpack_require__(216);
 	
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 	
-	var _componentsApp = __webpack_require__(216);
+	//import 'css/style.css';
+	
+	var _componentsApp = __webpack_require__(217);
 	
 	var _componentsApp2 = _interopRequireDefault(_componentsApp);
 	
-	var _reducers = __webpack_require__(219);
+	var _reducers = __webpack_require__(223);
 	
 	var _reducers2 = _interopRequireDefault(_reducers);
 	
@@ -23762,6 +23764,32 @@
 
 /***/ }),
 /* 215 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var compose = __webpack_require__(192).compose;
+	
+	exports.__esModule = true;
+	exports.composeWithDevTools = (
+	  typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
+	    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ :
+	    function() {
+	      if (arguments.length === 0) return undefined;
+	      if (typeof arguments[0] === 'object') return compose;
+	      return compose.apply(null, arguments);
+	    }
+	);
+	
+	exports.devToolsEnhancer = (
+	  typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION__ ?
+	    window.__REDUX_DEVTOOLS_EXTENSION__ :
+	    function() { return function(noop) { return noop; } }
+	);
+
+
+/***/ }),
+/* 216 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -23789,7 +23817,7 @@
 	exports['default'] = thunk;
 
 /***/ }),
-/* 216 */
+/* 217 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23814,10 +23842,158 @@
 	
 	var _reactRedux = __webpack_require__(183);
 	
-	var _actionsMainActions = __webpack_require__(217);
+	var _actionsMainActions = __webpack_require__(218);
 	
-	var App = (function (_Component) {
-	    _inherits(App, _Component);
+	var _actionsContentActions = __webpack_require__(221);
+	
+	var LeftBlock = (function (_Component) {
+	    _inherits(LeftBlock, _Component);
+	
+	    function LeftBlock() {
+	        _classCallCheck(this, LeftBlock);
+	
+	        _get(Object.getPrototypeOf(LeftBlock.prototype), 'constructor', this).apply(this, arguments);
+	    }
+	
+	    _createClass(LeftBlock, [{
+	        key: 'render',
+	        value: function render() {
+	            var _this = this;
+	
+	            return _react2['default'].createElement(
+	                'div',
+	                { className: 'col-xs-2 leftBlock' },
+	                'Левый блок',
+	                _react2['default'].createElement(
+	                    'ul',
+	                    null,
+	                    this.props.main_list.map(function (item, index) {
+	                        return _react2['default'].createElement(
+	                            'li',
+	                            { key: index },
+	                            _react2['default'].createElement(
+	                                'a',
+	                                { onClick: _this.props.getContentActions.bind(_this, item.id) },
+	                                item.name
+	                            )
+	                        );
+	                    }),
+	                    this.props.main_list.length == 0 ? 'Загрузка...' : ''
+	                )
+	            );
+	        }
+	    }]);
+	
+	    return LeftBlock;
+	})(_react.Component);
+	
+	var CenterBlock = (function (_Component2) {
+	    _inherits(CenterBlock, _Component2);
+	
+	    function CenterBlock() {
+	        _classCallCheck(this, CenterBlock);
+	
+	        _get(Object.getPrototypeOf(CenterBlock.prototype), 'constructor', this).apply(this, arguments);
+	    }
+	
+	    _createClass(CenterBlock, [{
+	        key: 'render',
+	        value: function render() {
+	            console.log(this.props.content);
+	            return _react2['default'].createElement(
+	                'div',
+	                { className: 'col-xs-10 leftBlock' },
+	                'Центральный блок',
+	                this.props.content && _react2['default'].createElement(
+	                    'div',
+	                    null,
+	                    _react2['default'].createElement(
+	                        'div',
+	                        { className: 'panel panel-info' },
+	                        _react2['default'].createElement(
+	                            'div',
+	                            { className: 'panel-heading' },
+	                            _react2['default'].createElement(
+	                                'h2',
+	                                { className: 'panel-title' },
+	                                this.props.content.name
+	                            )
+	                        ),
+	                        _react2['default'].createElement('div', { className: 'panel-body',
+	                            dangerouslySetInnerHTML: { __html: this.props.content.description } })
+	                    ),
+	                    this.props.content && this.props.content.items && _react2['default'].createElement(
+	                        'div',
+	                        { className: 'panel panel-default' },
+	                        _react2['default'].createElement(
+	                            'div',
+	                            { className: 'panel-body' },
+	                            _react2['default'].createElement(
+	                                'div',
+	                                { id: 'carousel-example-generic', className: 'carousel slide', 'data-ride': 'carousel' },
+	                                _react2['default'].createElement(
+	                                    'div',
+	                                    { className: 'carousel-inner', role: 'listbox' },
+	                                    this.props.content.items.map(function (item, index) {
+	                                        return _react2['default'].createElement(
+	                                            'div',
+	                                            { className: index == 0 ? 'item active' : 'item' },
+	                                            _react2['default'].createElement(
+	                                                'div',
+	                                                { className: 'carousel-caption' },
+	                                                _react2['default'].createElement(
+	                                                    'h3',
+	                                                    null,
+	                                                    item.title
+	                                                ),
+	                                                _react2['default'].createElement('br', null),
+	                                                _react2['default'].createElement(
+	                                                    'a',
+	                                                    { href: '#' },
+	                                                    '№',
+	                                                    item.position,
+	                                                    '. ',
+	                                                    item.color
+	                                                )
+	                                            )
+	                                        );
+	                                    })
+	                                ),
+	                                _react2['default'].createElement(
+	                                    'a',
+	                                    { className: 'left carousel-control', href: '#carousel-example-generic', role: 'button',
+	                                        'data-slide': 'prev' },
+	                                    _react2['default'].createElement('span', { className: 'glyphicon glyphicon-chevron-left', 'aria-hidden': 'true' }),
+	                                    _react2['default'].createElement(
+	                                        'span',
+	                                        { className: 'sr-only' },
+	                                        'Previous'
+	                                    )
+	                                ),
+	                                _react2['default'].createElement(
+	                                    'a',
+	                                    { className: 'right carousel-control', href: '#carousel-example-generic', role: 'button',
+	                                        'data-slide': 'next' },
+	                                    _react2['default'].createElement('span', { className: 'glyphicon glyphicon-chevron-right', 'aria-hidden': 'true' }),
+	                                    _react2['default'].createElement(
+	                                        'span',
+	                                        { className: 'sr-only' },
+	                                        'Next'
+	                                    )
+	                                )
+	                            )
+	                        )
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+	
+	    return CenterBlock;
+	})(_react.Component);
+	
+	var App = (function (_Component3) {
+	    _inherits(App, _Component3);
 	
 	    function App() {
 	        _classCallCheck(this, App);
@@ -23826,17 +24002,18 @@
 	    }
 	
 	    _createClass(App, [{
+	        key: 'componentWillMount',
+	        value: function componentWillMount() {
+	            this.props.getMainListActions();
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
-	
 	            return _react2['default'].createElement(
 	                'div',
 	                { className: 'row' },
-	                _react2['default'].createElement(
-	                    'button',
-	                    { onClick: this.props.getMainListActions },
-	                    'Get main list'
-	                )
+	                _react2['default'].createElement(LeftBlock, { main_list: this.props.main_list, getContentActions: this.props.getContentActions }),
+	                _react2['default'].createElement(CenterBlock, { content: this.props.content })
 	            );
 	        }
 	    }]);
@@ -23847,19 +24024,23 @@
 	exports['default'] = App;
 	exports['default'] = (0, _reactRedux.connect)(function (state) {
 	    return {
-	        main_list: state.main_list
+	        main_list: state.main.main_list,
+	        content: state.content.content
 	    };
 	}, function (dispatch) {
 	    return {
 	        getMainListActions: function getMainListActions() {
 	            dispatch((0, _actionsMainActions.getMainList)());
+	        },
+	        getContentActions: function getContentActions(menu_id) {
+	            dispatch((0, _actionsContentActions.getContent)(menu_id));
 	        }
 	    };
 	})(App);
 	module.exports = exports['default'];
 
 /***/ }),
-/* 217 */
+/* 218 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23868,166 +24049,43 @@
 	    value: true
 	});
 	
-	var _constantsBaseTypes = __webpack_require__(222);
+	var _constantsBaseTypes = __webpack_require__(219);
 	
-	var _constantsMain = __webpack_require__(221);
+	var _constantsMain = __webpack_require__(220);
 	
 	var mockApiData = [{
 	    id: 1,
-	    name: 'Enter Sandman'
+	    name: 'Первый пункт меню'
 	}, {
 	    id: 2,
-	    name: 'Welcome Home'
+	    name: 'Второй пункт меню'
 	}, {
 	    id: 3,
-	    name: 'Master of Puppets'
-	}, {
-	    id: 4,
-	    name: 'Fade to Black'
+	    name: 'Третий пункт меню'
 	}];
 	
 	var getMainList = function getMainList() {
 	    return function (dispatch) {
 	        setTimeout(function () {
-	            console.log('I got tracks');
-	            dispatch({ type: 'GET_MAIN_LIST' + _constantsBaseTypes._SUCCESS, payload: mockApiData });
-	        }, 2000);
+	            dispatch({ type: 'GET_MAIN_LIST' + _constantsBaseTypes._SUCCESS, main_list: mockApiData });
+	        }, 500);
 	    };
 	};
 	
-	exports.getMainList = getMainList;
 	/*
-	import {_REQUEST} from '../constants/baseTypes'
-	import {SET_MAIN_LIST, GET_MAIN_LIST} from '../constants/Main'
-
-	function getMainList() {
-	    return async (dispatch) => {
-	        await dispatch({
-	            type: GET_MAIN_LIST + _REQUEST,
-	            method: 'GET',
-	            endpoint: `api/getMainList/`,
-	        });
-	    };
-	}
-
-	function setMainList( list ){
-	    return {
-	        type : SET_MAIN_LIST,
-	        main_list : list
-	    }
-	}
-
-	export {
-	    getMainList,
-	    setMainList
-	}*/
-
-/***/ }),
-/* 218 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	"use strict";
 	
-	var compose = __webpack_require__(192).compose;
+	 function setMainList( list ){
+	 return {
+	 type : SET_MAIN_LIST,
+	 main_list : list
+	 }
+	 }
+	 */
 	
-	exports.__esModule = true;
-	exports.composeWithDevTools = (
-	  typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
-	    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ :
-	    function() {
-	      if (arguments.length === 0) return undefined;
-	      if (typeof arguments[0] === 'object') return compose;
-	      return compose.apply(null, arguments);
-	    }
-	);
-	
-	exports.devToolsEnhancer = (
-	  typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION__ ?
-	    window.__REDUX_DEVTOOLS_EXTENSION__ :
-	    function() { return function(noop) { return noop; } }
-	);
-
+	exports.getMainList = getMainList;
 
 /***/ }),
 /* 219 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, '__esModule', {
-	    value: true
-	});
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	var _redux = __webpack_require__(192);
-	
-	var _main = __webpack_require__(220);
-	
-	var _main2 = _interopRequireDefault(_main);
-	
-	var _test = __webpack_require__(223);
-	
-	var _test2 = _interopRequireDefault(_test);
-	
-	exports['default'] = (0, _redux.combineReducers)({
-	    main: _main2['default'],
-	    test: _test2['default']
-	});
-	module.exports = exports['default'];
-
-/***/ }),
-/* 220 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, '__esModule', {
-	    value: true
-	});
-	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
-	exports['default'] = main;
-	
-	var _constantsMain = __webpack_require__(221);
-	
-	var _constantsBaseTypes = __webpack_require__(222);
-	
-	var initialState = {
-	    main_list: []
-	};
-	
-	function main(state, action) {
-	    if (state === undefined) state = initialState;
-	
-	    switch (action.type) {
-	        case _constantsMain.SET_MAIN_LIST + _constantsBaseTypes._SUCCESS:
-	            return _extends({}, state, { main_list: action.payload });
-	
-	        default:
-	            return state;
-	    }
-	}
-	
-	module.exports = exports['default'];
-
-/***/ }),
-/* 221 */
-/***/ (function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-	var SET_MAIN_LIST = 'SET_MAIN_LIST';
-	exports.SET_MAIN_LIST = SET_MAIN_LIST;
-	var GET_MAIN_LIST = 'GET_MAIN_LIST';
-	exports.GET_MAIN_LIST = GET_MAIN_LIST;
-
-/***/ }),
-/* 222 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -24043,7 +24101,115 @@
 	exports._FAILURE = _FAILURE;
 
 /***/ }),
+/* 220 */
+/***/ (function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	var SET_MAIN_LIST = 'SET_MAIN_LIST';
+	exports.SET_MAIN_LIST = SET_MAIN_LIST;
+	var GET_MAIN_LIST = 'GET_MAIN_LIST';
+	exports.GET_MAIN_LIST = GET_MAIN_LIST;
+
+/***/ }),
+/* 221 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+	
+	var _constantsBaseTypes = __webpack_require__(219);
+	
+	var _constantsContent = __webpack_require__(222);
+	
+	var listColors = ['#ff0000', '#00ff00', '#0000ff', '#ff00ff', '#00ffff', '#ffff00', '#ffffff', '#000000'];
+	
+	var listItems = [];
+	for (var i = 0; i < 105; i++) {
+	    var colorRand = Math.floor(Math.random() * (listColors.length - 1 + 1));
+	    listItems.push({ title: 'Item ' + (i + 1), color: listColors[colorRand], position: i + 1, active: true });
+	}
+	
+	var mockApiData = {
+	    1: {
+	        name: 'Контент 1',
+	        description: '<b>Описание первого</b> <u>кнтента</u>, Описание первого кнтента, Описание первого кнтента, Описание первого кнтента, Описание первого кнтента',
+	        items: listItems
+	    },
+	
+	    2: {
+	        name: 'Контент 2',
+	        description: '<b>Описание второго</b> <a href="">контента</a>. Описание второго контента. Описание второго контента. Описание второго контента. ',
+	        items: listItems
+	    },
+	
+	    3: {
+	        id: 3,
+	        name: 'Контент 3',
+	        description: '<b>Описание третего</b> <i>контента</i>. Описание третего контента. Описание третего контента. Описание третего контента. Описание третего контента. ',
+	        items: listItems
+	    }
+	
+	};
+	
+	var getContent = function getContent(menu_id) {
+	    return function (dispatch) {
+	        setTimeout(function () {
+	            dispatch({ type: 'GET_CONTENT' + _constantsBaseTypes._SUCCESS, content: mockApiData[menu_id] });
+	        }, 500);
+	    };
+	};
+	
+	exports.getContent = getContent;
+
+/***/ }),
+/* 222 */
+/***/ (function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	var GET_CONTENT = 'GET_CONTENT';
+	exports.GET_CONTENT = GET_CONTENT;
+
+/***/ }),
 /* 223 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	var _redux = __webpack_require__(192);
+	
+	var _main = __webpack_require__(224);
+	
+	var _main2 = _interopRequireDefault(_main);
+	
+	var _content = __webpack_require__(225);
+	
+	var _content2 = _interopRequireDefault(_content);
+	
+	exports['default'] = (0, _redux.combineReducers)({
+	    main: _main2['default'],
+	    content: _content2['default']
+	});
+	module.exports = exports['default'];
+
+/***/ }),
+/* 224 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24054,22 +24220,60 @@
 	
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
-	exports['default'] = test;
+	exports['default'] = main;
 	
-	var _constantsMain = __webpack_require__(221);
+	var _constantsMain = __webpack_require__(220);
 	
-	var _constantsBaseTypes = __webpack_require__(222);
+	var _constantsBaseTypes = __webpack_require__(219);
 	
 	var initialState = {
 	    main_list: []
 	};
 	
-	function test(state, action) {
+	function main(state, action) {
 	    if (state === undefined) state = initialState;
 	
 	    switch (action.type) {
-	        case _constantsMain.SET_MAIN_LIST + _constantsBaseTypes._SUCCESS:
-	            return _extends({}, state, { main_list: action.payload });
+	        case _constantsMain.GET_MAIN_LIST + _constantsBaseTypes._SUCCESS:
+	            return _extends({}, state, { main_list: action.main_list });
+	
+	        default:
+	            return state;
+	    }
+	}
+	
+	module.exports = exports['default'];
+
+/***/ }),
+/* 225 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	exports['default'] = content;
+	
+	var _constantsBaseTypes = __webpack_require__(219);
+	
+	var _constantsContent = __webpack_require__(222);
+	
+	var initialState = {
+	    name: '',
+	    description: '',
+	    items: []
+	};
+	
+	function content(state, action) {
+	    if (state === undefined) state = initialState;
+	
+	    switch (action.type) {
+	        case _constantsContent.GET_CONTENT + _constantsBaseTypes._SUCCESS:
+	            return _extends({}, state, { content: action.content });
 	
 	        default:
 	            return state;

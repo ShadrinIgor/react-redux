@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 
 import main from './main';
-import test from './test';
+import content from './content';
 
 export default combineReducers({
     main,
-    test
+    content
 });

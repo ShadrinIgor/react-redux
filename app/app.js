@@ -5,6 +5,8 @@ import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 
+//import 'css/style.css';
+
 import App from './components/App';
 import reducer from './reducers';
 

@@ -1,4 +1,4 @@
-import {SET_MAIN_LIST} from '../constants/Main'
+import {GET_MAIN_LIST} from '../constants/Main'
 import {_SUCCESS} from '../constants/baseTypes'
 
 const initialState = {
@@ -8,8 +8,8 @@ const initialState = {
 export default function main(state = initialState, action) {
 
     switch ( action.type ){
-        case SET_MAIN_LIST + _SUCCESS :
-            return { ...state, main_list:action.payload }
+        case GET_MAIN_LIST + _SUCCESS :
+            return { ...state, main_list:action.main_list }
 
         default :
             return state
