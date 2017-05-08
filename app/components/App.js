@@ -1,27 +1,24 @@
-import React, { Component } from 'react'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import User from '../components/User'
-import * as userActions from '../actions/UserActions'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { getMainList } from '../actions/MainActions';
 
-class App extends Component {
+export default class App extends Component {
     render() {
-        return <div>
-            <User user={this.props.user} actions={this.props.userActions} />
+
+        return <div className="row">
+            <button onClick={this.props.getMainListActions}>Get main list</button>
         </div>
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        user: state.user
-    }
-}
 
-function mapDispatchToProps(dispatch) {
-    return {
-        userActions: bindActionCreators( userActions, dispatch )
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(
+    state => ({
+        main_list: state.main_list
+    }),
+    dispatch => ({
+        getMainListActions: () => {
+            dispatch(getMainList());
+        }
+    })
+)(App);
