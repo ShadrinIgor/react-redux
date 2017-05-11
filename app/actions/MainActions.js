@@ -22,15 +22,6 @@ const getMainList = () => dispatch => {
     }, 500)
 };
 
-/*
-
- function setMainList( list ){
- return {
- type : SET_MAIN_LIST,
- main_list : list
- }
- }
- */
 
 export {
     getMainList

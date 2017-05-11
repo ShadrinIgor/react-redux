@@ -66,13 +66,11 @@
 	
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 	
-	//import 'css/style.css';
-	
-	var _componentsApp = __webpack_require__(217);
+	var _componentsApp = __webpack_require__(268);
 	
 	var _componentsApp2 = _interopRequireDefault(_componentsApp);
 	
-	var _reducers = __webpack_require__(223);
+	var _reducers = __webpack_require__(275);
 	
 	var _reducers2 = _interopRequireDefault(_reducers);
 	
@@ -23817,7 +23815,58 @@
 	exports['default'] = thunk;
 
 /***/ }),
-/* 217 */
+/* 217 */,
+/* 218 */,
+/* 219 */,
+/* 220 */,
+/* 221 */,
+/* 222 */,
+/* 223 */,
+/* 224 */,
+/* 225 */,
+/* 226 */,
+/* 227 */,
+/* 228 */,
+/* 229 */,
+/* 230 */,
+/* 231 */,
+/* 232 */,
+/* 233 */,
+/* 234 */,
+/* 235 */,
+/* 236 */,
+/* 237 */,
+/* 238 */,
+/* 239 */,
+/* 240 */,
+/* 241 */,
+/* 242 */,
+/* 243 */,
+/* 244 */,
+/* 245 */,
+/* 246 */,
+/* 247 */,
+/* 248 */,
+/* 249 */,
+/* 250 */,
+/* 251 */,
+/* 252 */,
+/* 253 */,
+/* 254 */,
+/* 255 */,
+/* 256 */,
+/* 257 */,
+/* 258 */,
+/* 259 */,
+/* 260 */,
+/* 261 */,
+/* 262 */,
+/* 263 */,
+/* 264 */,
+/* 265 */,
+/* 266 */,
+/* 267 */,
+/* 268 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23842,9 +23891,9 @@
 	
 	var _reactRedux = __webpack_require__(183);
 	
-	var _actionsMainActions = __webpack_require__(218);
+	var _actionsMainActions = __webpack_require__(269);
 	
-	var _actionsContentActions = __webpack_require__(221);
+	var _actionsContentActions = __webpack_require__(272);
 	
 	var LeftBlock = (function (_Component) {
 	    _inherits(LeftBlock, _Component);
@@ -23852,30 +23901,34 @@
 	    function LeftBlock() {
 	        _classCallCheck(this, LeftBlock);
 	
-	        _get(Object.getPrototypeOf(LeftBlock.prototype), 'constructor', this).apply(this, arguments);
+	        _get(Object.getPrototypeOf(LeftBlock.prototype), 'constructor', this).call(this);
+	        this.state = { active: 0 };
 	    }
 	
 	    _createClass(LeftBlock, [{
+	        key: 'clickHandler',
+	        value: function clickHandler(id) {
+	            this.state = { active: id };
+	            this.props.getContentActions.call(this, id);
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            var _this = this;
 	
 	            return _react2['default'].createElement(
 	                'div',
-	                { className: 'col-xs-2 leftBlock' },
-	                'Левый блок',
+	                { className: 'col-xs-12 col-md-2 leftBlock' },
 	                _react2['default'].createElement(
-	                    'ul',
-	                    null,
+	                    'div',
+	                    { className: 'list-group' },
 	                    this.props.main_list.map(function (item, index) {
 	                        return _react2['default'].createElement(
-	                            'li',
-	                            { key: index },
-	                            _react2['default'].createElement(
-	                                'a',
-	                                { onClick: _this.props.getContentActions.bind(_this, item.id) },
-	                                item.name
-	                            )
+	                            'a',
+	                            { href: '#', className: _this.state.active == item.id ? 'list-group-item active' : 'list-group-item',
+	                                key: item.id,
+	                                onClick: _this.clickHandler.bind(_this, item.id) },
+	                            item.name
 	                        );
 	                    }),
 	                    this.props.main_list.length == 0 ? 'Загрузка...' : ''
@@ -23890,23 +23943,74 @@
 	var CenterBlock = (function (_Component2) {
 	    _inherits(CenterBlock, _Component2);
 	
-	    function CenterBlock() {
+	    function CenterBlock(props) {
 	        _classCallCheck(this, CenterBlock);
 	
-	        _get(Object.getPrototypeOf(CenterBlock.prototype), 'constructor', this).apply(this, arguments);
+	        _get(Object.getPrototypeOf(CenterBlock.prototype), 'constructor', this).call(this, props);
+	        this.filterList = this.filterList.bind(this);
 	    }
 	
 	    _createClass(CenterBlock, [{
+	        key: 'changeStatus',
+	        value: function changeStatus(id) {
+	            var items = this.state.items;
+	            for (var i = 0; i < items.length; i++) {
+	                if (items[i].id == id) items[i].active = !items[i].active;
+	            }
+	
+	            this.setState({ items: items });
+	
+	            var paramsItems = this.props.content.items;
+	            this.props.updateCards(paramsItems);
+	
+	            this.filterList();
+	        }
+	    }, {
+	        key: 'filterList',
+	        value: function filterList() {
+	            var name = document.getElementById('filter_name'),
+	                color = document.getElementById('filter_color'),
+	                number = document.getElementById('filter_number'),
+	                archive = document.getElementById('filter_archive');
+	
+	            if (this.props.content && this.props.content.items.length > 0) {
+	
+	                var filteredList = this.props.content.items;
+	
+	                filteredList = filteredList.filter(function (item) {
+	
+	                    var result = true;
+	                    if (name.value) result = item.title.toLowerCase().search(name.value.toLowerCase()) !== -1;
+	                    if (result && color.value) result = item.color.toLowerCase().search(color.value.toLowerCase()) !== -1;
+	                    if (result && number.value) result = item.position.toString().toLowerCase().search(number.value.toLowerCase()) !== -1;
+	                    if (result) result = item.active == archive.checked;
+	
+	                    return result;
+	                });
+	
+	                this.setState({ items: filteredList });
+	            }
+	        }
+	    }, {
+	        key: 'componentWillReceiveProps',
+	        value: function componentWillReceiveProps(nextProps) {
+	
+	            if (nextProps) {
+	                this.state = nextProps.content && nextProps.content.items.length > 0 ? { items: nextProps.content.items } : { items: [] };
+	            }
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
-	            console.log(this.props.content);
+	            var _this2 = this;
+	
 	            return _react2['default'].createElement(
 	                'div',
-	                { className: 'col-xs-10 leftBlock' },
-	                'Центральный блок',
-	                this.props.content && _react2['default'].createElement(
+	                { className: 'col-xs-12 col-md-10 leftBlock' },
+	                this.props.content && this.props.content.id && _react2['default'].createElement(
 	                    'div',
 	                    null,
+	                    _react2['default'].createElement('br', null),
 	                    _react2['default'].createElement(
 	                        'div',
 	                        { className: 'panel panel-info' },
@@ -23922,65 +24026,120 @@
 	                        _react2['default'].createElement('div', { className: 'panel-body',
 	                            dangerouslySetInnerHTML: { __html: this.props.content.description } })
 	                    ),
-	                    this.props.content && this.props.content.items && _react2['default'].createElement(
+	                    _react2['default'].createElement(
 	                        'div',
-	                        { className: 'panel panel-default' },
+	                        { className: 'panel panel-success' },
+	                        _react2['default'].createElement(
+	                            'div',
+	                            { className: 'panel-heading' },
+	                            _react2['default'].createElement(
+	                                'h3',
+	                                { className: 'panel-title' },
+	                                'Поиск'
+	                            )
+	                        ),
 	                        _react2['default'].createElement(
 	                            'div',
 	                            { className: 'panel-body' },
 	                            _react2['default'].createElement(
 	                                'div',
-	                                { id: 'carousel-example-generic', className: 'carousel slide', 'data-ride': 'carousel' },
+	                                { className: 'col-xs-5' },
 	                                _react2['default'].createElement(
 	                                    'div',
-	                                    { className: 'carousel-inner', role: 'listbox' },
-	                                    this.props.content.items.map(function (item, index) {
-	                                        return _react2['default'].createElement(
-	                                            'div',
-	                                            { className: index == 0 ? 'item active' : 'item' },
-	                                            _react2['default'].createElement(
-	                                                'div',
-	                                                { className: 'carousel-caption' },
-	                                                _react2['default'].createElement(
-	                                                    'h3',
-	                                                    null,
-	                                                    item.title
-	                                                ),
-	                                                _react2['default'].createElement('br', null),
-	                                                _react2['default'].createElement(
-	                                                    'a',
-	                                                    { href: '#' },
-	                                                    '№',
-	                                                    item.position,
-	                                                    '. ',
-	                                                    item.color
-	                                                )
-	                                            )
-	                                        );
-	                                    })
-	                                ),
-	                                _react2['default'].createElement(
-	                                    'a',
-	                                    { className: 'left carousel-control', href: '#carousel-example-generic', role: 'button',
-	                                        'data-slide': 'prev' },
-	                                    _react2['default'].createElement('span', { className: 'glyphicon glyphicon-chevron-left', 'aria-hidden': 'true' }),
+	                                    { className: 'form-group' },
 	                                    _react2['default'].createElement(
-	                                        'span',
-	                                        { className: 'sr-only' },
-	                                        'Previous'
-	                                    )
-	                                ),
-	                                _react2['default'].createElement(
-	                                    'a',
-	                                    { className: 'right carousel-control', href: '#carousel-example-generic', role: 'button',
-	                                        'data-slide': 'next' },
-	                                    _react2['default'].createElement('span', { className: 'glyphicon glyphicon-chevron-right', 'aria-hidden': 'true' }),
-	                                    _react2['default'].createElement(
-	                                        'span',
-	                                        { className: 'sr-only' },
-	                                        'Next'
-	                                    )
+	                                        'label',
+	                                        null,
+	                                        'Название'
+	                                    ),
+	                                    _react2['default'].createElement('br', null),
+	                                    _react2['default'].createElement('input', { type: 'text', id: 'filter_name', className: 'form-control',
+	                                        onChange: this.filterList })
 	                                )
+	                            ),
+	                            _react2['default'].createElement(
+	                                'div',
+	                                { className: 'col-xs-3' },
+	                                _react2['default'].createElement(
+	                                    'div',
+	                                    { className: 'form-group' },
+	                                    _react2['default'].createElement(
+	                                        'label',
+	                                        null,
+	                                        'Цвет'
+	                                    ),
+	                                    _react2['default'].createElement('br', null),
+	                                    _react2['default'].createElement('input', { type: 'text', id: 'filter_color', className: 'form-control',
+	                                        onChange: this.filterList })
+	                                )
+	                            ),
+	                            _react2['default'].createElement(
+	                                'div',
+	                                { className: 'col-xs-3' },
+	                                _react2['default'].createElement(
+	                                    'div',
+	                                    { className: 'form-group' },
+	                                    _react2['default'].createElement(
+	                                        'label',
+	                                        null,
+	                                        'Номер'
+	                                    ),
+	                                    _react2['default'].createElement('br', null),
+	                                    _react2['default'].createElement('input', { type: 'text', id: 'filter_number', className: 'form-control',
+	                                        onChange: this.filterList })
+	                                )
+	                            ),
+	                            _react2['default'].createElement(
+	                                'div',
+	                                { className: 'col-xs-1' },
+	                                _react2['default'].createElement(
+	                                    'div',
+	                                    { className: 'form-group' },
+	                                    _react2['default'].createElement(
+	                                        'label',
+	                                        null,
+	                                        'Активные'
+	                                    ),
+	                                    _react2['default'].createElement('br', null),
+	                                    _react2['default'].createElement('input', { type: 'checkbox', id: 'filter_archive', value: '1', className: 'checkbox',
+	                                        onChange: this.filterList })
+	                                )
+	                            )
+	                        )
+	                    ),
+	                    this.state && this.state.items && _react2['default'].createElement(
+	                        'div',
+	                        { className: 'panel panel-info' },
+	                        _react2['default'].createElement(
+	                            'div',
+	                            { className: 'panel-body' },
+	                            this.state.items.map(function (item, index) {
+	                                return _react2['default'].createElement(
+	                                    'div',
+	                                    { key: 'cart-' + item.id, className: 'col-xs-3 text-center' },
+	                                    _react2['default'].createElement(
+	                                        'p',
+	                                        null,
+	                                        _react2['default'].createElement(
+	                                            'a',
+	                                            { href: '#' },
+	                                            '№',
+	                                            item.position,
+	                                            ', ',
+	                                            item.title,
+	                                            _react2['default'].createElement('br', null),
+	                                            item.color
+	                                        ),
+	                                        _react2['default'].createElement('br', null),
+	                                        _react2['default'].createElement('input', { key: 'cart-item-' + item.id, type: 'checkbox', value: '1', checked: item.active,
+	                                            onChange: _this2.changeStatus.bind(_this2, item.id) })
+	                                    )
+	                                );
+	                            }),
+	                            this.state.items.length == 0 && _react2['default'].createElement(
+	                                'div',
+	                                { className: 'text-center' },
+	                                'Список пуст'
 	                            )
 	                        )
 	                    )
@@ -24011,9 +24170,9 @@
 	        value: function render() {
 	            return _react2['default'].createElement(
 	                'div',
-	                { className: 'row' },
+	                null,
 	                _react2['default'].createElement(LeftBlock, { main_list: this.props.main_list, getContentActions: this.props.getContentActions }),
-	                _react2['default'].createElement(CenterBlock, { content: this.props.content })
+	                _react2['default'].createElement(CenterBlock, { content: this.props.content, updateCards: this.props.updateCards })
 	            );
 	        }
 	    }]);
@@ -24025,7 +24184,7 @@
 	exports['default'] = (0, _reactRedux.connect)(function (state) {
 	    return {
 	        main_list: state.main.main_list,
-	        content: state.content.content
+	        content: state.content
 	    };
 	}, function (dispatch) {
 	    return {
@@ -24034,13 +24193,16 @@
 	        },
 	        getContentActions: function getContentActions(menu_id) {
 	            dispatch((0, _actionsContentActions.getContent)(menu_id));
+	        },
+	        updateCards: function updateCards(list) {
+	            dispatch((0, _actionsContentActions.updateCards)(list));
 	        }
 	    };
 	})(App);
 	module.exports = exports['default'];
 
 /***/ }),
-/* 218 */
+/* 269 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24049,9 +24211,9 @@
 	    value: true
 	});
 	
-	var _constantsBaseTypes = __webpack_require__(219);
+	var _constantsBaseTypes = __webpack_require__(270);
 	
-	var _constantsMain = __webpack_require__(220);
+	var _constantsMain = __webpack_require__(271);
 	
 	var mockApiData = [{
 	    id: 1,
@@ -24072,20 +24234,10 @@
 	    };
 	};
 	
-	/*
-	
-	 function setMainList( list ){
-	 return {
-	 type : SET_MAIN_LIST,
-	 main_list : list
-	 }
-	 }
-	 */
-	
 	exports.getMainList = getMainList;
 
 /***/ }),
-/* 219 */
+/* 270 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -24101,7 +24253,7 @@
 	exports._FAILURE = _FAILURE;
 
 /***/ }),
-/* 220 */
+/* 271 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -24109,13 +24261,11 @@
 	Object.defineProperty(exports, '__esModule', {
 	  value: true
 	});
-	var SET_MAIN_LIST = 'SET_MAIN_LIST';
-	exports.SET_MAIN_LIST = SET_MAIN_LIST;
 	var GET_MAIN_LIST = 'GET_MAIN_LIST';
 	exports.GET_MAIN_LIST = GET_MAIN_LIST;
 
 /***/ }),
-/* 221 */
+/* 272 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24124,26 +24274,28 @@
 	    value: true
 	});
 	
-	var _constantsBaseTypes = __webpack_require__(219);
+	var _constantsBaseTypes = __webpack_require__(270);
 	
-	var _constantsContent = __webpack_require__(222);
+	var _constantsContent = __webpack_require__(273);
 	
 	var listColors = ['#ff0000', '#00ff00', '#0000ff', '#ff00ff', '#00ffff', '#ffff00', '#ffffff', '#000000'];
 	
 	var listItems = [];
 	for (var i = 0; i < 105; i++) {
 	    var colorRand = Math.floor(Math.random() * (listColors.length - 1 + 1));
-	    listItems.push({ title: 'Item ' + (i + 1), color: listColors[colorRand], position: i + 1, active: true });
+	    listItems.push({ id: i + 1, title: 'Item ' + (i + 1), color: listColors[colorRand], position: i + 1, active: true });
 	}
 	
 	var mockApiData = {
 	    1: {
+	        id: 1,
 	        name: 'Контент 1',
 	        description: '<b>Описание первого</b> <u>кнтента</u>, Описание первого кнтента, Описание первого кнтента, Описание первого кнтента, Описание первого кнтента',
 	        items: listItems
 	    },
 	
 	    2: {
+	        id: 2,
 	        name: 'Контент 2',
 	        description: '<b>Описание второго</b> <a href="">контента</a>. Описание второго контента. Описание второго контента. Описание второго контента. ',
 	        items: listItems
@@ -24157,7 +24309,6 @@
 	    }
 	
 	};
-	
 	var getContent = function getContent(menu_id) {
 	    return function (dispatch) {
 	        setTimeout(function () {
@@ -24166,10 +24317,26 @@
 	    };
 	};
 	
+	var getCard = function getCard(id) {
+	    return function (dispatch) {
+	        setTimeout(function () {
+	            dispatch({ type: 'GET_CARD' + _constantsBaseTypes._SUCCESS, card: mockCardApiData });
+	        }, 500);
+	    };
+	};
+	
+	var updateCards = function updateCards(list) {
+	    return {
+	        type: _constantsContent.UPDATE_CARDS,
+	        list: list
+	    };
+	};
+	
 	exports.getContent = getContent;
+	exports.updateCards = updateCards;
 
 /***/ }),
-/* 222 */
+/* 273 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -24179,9 +24346,14 @@
 	});
 	var GET_CONTENT = 'GET_CONTENT';
 	exports.GET_CONTENT = GET_CONTENT;
+	var UPDATE_CARDS = 'UPDATE_CARDS';
+	exports.UPDATE_CARDS = UPDATE_CARDS;
+	var GET_CARD = 'GET_CARD';
+	exports.GET_CARD = GET_CARD;
 
 /***/ }),
-/* 223 */
+/* 274 */,
+/* 275 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24194,22 +24366,27 @@
 	
 	var _redux = __webpack_require__(192);
 	
-	var _main = __webpack_require__(224);
+	var _main = __webpack_require__(276);
 	
 	var _main2 = _interopRequireDefault(_main);
 	
-	var _content = __webpack_require__(225);
+	var _content = __webpack_require__(277);
 	
 	var _content2 = _interopRequireDefault(_content);
 	
+	var _card = __webpack_require__(278);
+	
+	var _card2 = _interopRequireDefault(_card);
+	
 	exports['default'] = (0, _redux.combineReducers)({
 	    main: _main2['default'],
-	    content: _content2['default']
+	    content: _content2['default'],
+	    card: _card2['default']
 	});
 	module.exports = exports['default'];
 
 /***/ }),
-/* 224 */
+/* 276 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24222,9 +24399,9 @@
 	
 	exports['default'] = main;
 	
-	var _constantsMain = __webpack_require__(220);
+	var _constantsMain = __webpack_require__(271);
 	
-	var _constantsBaseTypes = __webpack_require__(219);
+	var _constantsBaseTypes = __webpack_require__(270);
 	
 	var initialState = {
 	    main_list: []
@@ -24234,6 +24411,7 @@
 	    if (state === undefined) state = initialState;
 	
 	    switch (action.type) {
+	
 	        case _constantsMain.GET_MAIN_LIST + _constantsBaseTypes._SUCCESS:
 	            return _extends({}, state, { main_list: action.main_list });
 	
@@ -24245,7 +24423,7 @@
 	module.exports = exports['default'];
 
 /***/ }),
-/* 225 */
+/* 277 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24258,9 +24436,9 @@
 	
 	exports['default'] = content;
 	
-	var _constantsBaseTypes = __webpack_require__(219);
+	var _constantsBaseTypes = __webpack_require__(270);
 	
-	var _constantsContent = __webpack_require__(222);
+	var _constantsContent = __webpack_require__(273);
 	
 	var initialState = {
 	    name: '',
@@ -24272,8 +24450,47 @@
 	    if (state === undefined) state = initialState;
 	
 	    switch (action.type) {
+	        case _constantsContent.UPDATE_CARDS:
+	            return _extends({}, state, { items: action.list });
+	
 	        case _constantsContent.GET_CONTENT + _constantsBaseTypes._SUCCESS:
-	            return _extends({}, state, { content: action.content });
+	            return action.content;
+	
+	        default:
+	            return state;
+	    }
+	}
+	
+	module.exports = exports['default'];
+
+/***/ }),
+/* 278 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+	exports['default'] = card;
+	
+	var _constantsBaseTypes = __webpack_require__(270);
+	
+	var _constantsContent = __webpack_require__(273);
+	
+	var initialState = {
+	    name: '',
+	    description: '',
+	    items: []
+	};
+	
+	function card(state, action) {
+	    if (state === undefined) state = initialState;
+	
+	    switch (action.type) {
+	
+	        case _constantsContent.GET_CARD + _constantsBaseTypes._SUCCESS:
+	            return action.content;
 	
 	        default:
 	            return state;

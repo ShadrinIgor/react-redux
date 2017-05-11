@@ -1,22 +1,24 @@
 import {_SUCCESS} from '../constants/baseTypes'
-import {GET_CONTENT} from '../constants/Content'
+import {GET_CONTENT, UPDATE_CARDS, GET_CARD} from '../constants/Content'
 
 const listColors = [ '#ff0000', '#00ff00', '#0000ff', '#ff00ff', '#00ffff', '#ffff00', '#ffffff', '#000000'];
 
 let listItems = [];
 for(let i=0;i<105;i++){
     let colorRand = Math.floor(Math.random() * (listColors.length-1  + 1));
-    listItems.push({title: 'Item '+(i+1),color:listColors[colorRand], position: (i+1), active: true});
+    listItems.push({id: (i+1), title: 'Item '+(i+1),color:listColors[colorRand], position: (i+1), active: true});
 }
 
 const mockApiData = {
         1: {
+            id: 1,
             name: 'Контент 1',
             description: '<b>Описание первого</b> <u>кнтента</u>, Описание первого кнтента, Описание первого кнтента, Описание первого кнтента, Описание первого кнтента',
             items: listItems
         }
         ,
         2: {
+            id: 2,
             name: 'Контент 2',
             description: '<b>Описание второго</b> <a href="">контента</a>. Описание второго контента. Описание второго контента. Описание второго контента. ',
             items: listItems
@@ -29,15 +31,27 @@ const mockApiData = {
             items: listItems
         }
 
-    }
-;
-
+    };
 const getContent = (menu_id) => dispatch => {
     setTimeout(() => {
         dispatch({type: 'GET_CONTENT' + _SUCCESS, content: mockApiData[menu_id]})
     }, 500)
 };
 
+const getCard = (id) => dispatch => {
+    setTimeout(() => {
+        dispatch({type: 'GET_CARD' + _SUCCESS, card: mockCardApiData})
+    }, 500)
+};
+
+const updateCards = (list) => {
+    return {
+        type: UPDATE_CARDS,
+        list: list
+    }
+}
+
 export {
-    getContent
+    getContent,
+    updateCards
 }
