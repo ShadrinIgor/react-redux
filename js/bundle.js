@@ -23983,7 +23983,7 @@
 	                    if (name.value) result = item.title.toLowerCase().search(name.value.toLowerCase()) !== -1;
 	                    if (result && color.value) result = item.color.toLowerCase().search(color.value.toLowerCase()) !== -1;
 	                    if (result && number.value) result = item.position.toString().toLowerCase().search(number.value.toLowerCase()) !== -1;
-	                    if (result) result = item.active == archive.checked;
+	                    if (result) result = item.active == !archive.checked;
 	
 	                    return result;
 	                });
@@ -24098,7 +24098,7 @@
 	                                    _react2['default'].createElement(
 	                                        'label',
 	                                        null,
-	                                        'Активные'
+	                                        'Скрытые'
 	                                    ),
 	                                    _react2['default'].createElement('br', null),
 	                                    _react2['default'].createElement('input', { type: 'checkbox', id: 'filter_archive', value: '1', className: 'checkbox',

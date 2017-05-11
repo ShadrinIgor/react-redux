@@ -66,7 +66,7 @@ class CenterBlock extends Component {
                 if (name.value) result = item.title.toLowerCase().search(name.value.toLowerCase()) !== -1;
                 if (result && color.value) result = item.color.toLowerCase().search(color.value.toLowerCase()) !== -1;
                 if (result && number.value) result = item.position.toString().toLowerCase().search(number.value.toLowerCase()) !== -1;
-                if (result) result = item.active == archive.checked;
+                if (result) result = item.active == !archive.checked;
 
                 return result;
             });
@@ -123,7 +123,7 @@ class CenterBlock extends Component {
                         </div>
                         <div className="col-xs-1">
                             <div className="form-group">
-                                <label>Активные</label><br/>
+                                <label>Скрытые</label><br/>
                                 <input type="checkbox" id="filter_archive" value="1" className="checkbox"
                                        onChange={this.filterList}/>
                             </div>
@@ -169,7 +169,6 @@ export default class App extends Component {
         </div>
     }
 }
-
 
 export default connect(
     state => ({
